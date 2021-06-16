@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "335183406820",
+    "firebase_url": "https://immunizationmanager-default-rtdb.firebaseio.com",
+    "project_id": "immunizationmanager",
+    "storage_bucket": "immunizationmanager.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:335183406820:android:59c9465feaf816ea5e6ef1",
+        "android_client_info": {
+          "package_name": "com.example.immunizationmanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "335183406820-e7p3j8ss5gd05ha6jgskeh2sqqm6oucq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAn0FZFfn5yEu9H_yI44_mk5xfKuqbUUOk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "335183406820-e7p3j8ss5gd05ha6jgskeh2sqqm6oucq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

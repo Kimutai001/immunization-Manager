@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Immunization Manager</string>
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+    <string-array name="mode">
+        <item>Oral</item>
+        <item>Injection</item>
+    </string-array>
+</resources>

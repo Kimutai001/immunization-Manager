@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".LoginActivity"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="120dp"
+        android:text="ImmunizationManager"
+        android:textStyle="bold"
+        android:textColor="@color/darkBlue"
+        android:textSize="30sp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="Your Awesome App"
+        android:textStyle="bold"
+        android:textColor="@color/darkBlue"
+        />
+    <EditText
+        android:id="@+id/loginEmail"
+        android:layout_width="307dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/text"
+        android:drawableStart="@drawable/ic_email"
+        android:drawablePadding="10dp"
+        android:hint="Enter Email"
+        style="@style/Widget.AppCompat.EditText"
+        android:padding="10dp"
+        android:drawableLeft="@drawable/ic_email" />
+
+    <EditText
+        android:id="@+id/loginPassword"
+        android:layout_width="307dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center_horizontal"
+        android:inputType="textPassword"
+        android:background="@drawable/text"
+        android:drawableStart="@drawable/ic_lock"
+        android:padding="10dp"
+        android:hint="Enter your Password"
+        android:drawablePadding="10dp"
+        style="@style/Widget.AppCompat.EditText"
+        android:drawableLeft="@drawable/ic_lock" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="303dp"
+        android:layout_height="51dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/white"
+        android:background="@drawable/button"
+        android:text="LOGIN"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:textColor="#000"
+            android:text="New Here? "/>
+
+        <TextView
+            android:id="@+id/registerTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:textColor="@color/blue"
+            android:text=" Register"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/forgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/darkBlue"
+        android:text=" Forgot Password?"/>
+
+</LinearLayout>

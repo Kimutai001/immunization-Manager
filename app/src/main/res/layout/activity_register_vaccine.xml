@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterVaccine"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/vaccineName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="vaccine Name"
+        android:layout_gravity="center_horizontal"/>
+    <EditText
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Date Vaccinated"
+        android:layout_gravity="center_horizontal"/>
+    <Button
+        android:id="@+id/vaccineRegister"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/text"
+        android:text="Register"
+        android:textColor="@color/white"
+        android:layout_gravity="center_horizontal"/>
+</LinearLayout>
