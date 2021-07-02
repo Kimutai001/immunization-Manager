@@ -111,7 +111,7 @@ public class Register extends AppCompatActivity {
                                                     builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog, int which) {
-                                                            startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+                                                            startActivity(new Intent(getApplicationContext(), Login.class));
                                                             finish();
                                                         }
                                                     });
@@ -145,7 +145,7 @@ public class Register extends AppCompatActivity {
         loginTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                startActivity(new Intent(getApplicationContext(), Login.class));
             }
 
         });

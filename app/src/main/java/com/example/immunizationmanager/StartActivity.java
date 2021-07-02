@@ -1,6 +1,5 @@
 package com.example.immunizationmanager;
 
-import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -47,7 +46,7 @@ public class StartActivity extends AppCompatActivity {
                             finish();
                             Toast.makeText(StartActivity.this, "Welcome Back", Toast.LENGTH_LONG).show();
                         } else {
-                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), Login.class);
                             intent.putExtra("email", Email);
                             startActivity(intent);
                             finish();
@@ -61,7 +60,7 @@ public class StartActivity extends AppCompatActivity {
                     }
                 });
             } else {
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                Intent intent = new Intent(getApplicationContext(), Login.class);
                 startActivity(intent);
                 finish();
             }

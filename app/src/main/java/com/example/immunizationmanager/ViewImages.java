@@ -21,7 +21,5 @@ public class ViewImages extends AppCompatActivity {
         Glide.with(getApplicationContext())
                 .load(url)
                 .into(view);
-
-
     }
 }

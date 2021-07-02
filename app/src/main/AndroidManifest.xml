@@ -12,13 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ImmunizationManager">
         <activity android:name=".ViewImages"></activity>
-        <activity android:name=".VaccineView" />
+        <activity android:name=".ViewVaccine" />
         <activity android:name=".RegisterVaccine" />
         <activity android:name=".ClientInformation" />
         <activity android:name=".ClientRegister" />
         <activity android:name=".Profile" />
         <activity android:name=".Register" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".Login" />
         <activity android:name=".MainActivity" />
         <activity android:name=".StartActivity">
             <intent-filter>

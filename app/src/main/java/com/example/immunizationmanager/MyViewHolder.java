@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MyViewHolder extends RecyclerView.ViewHolder {
     ImageView imageView;
     TextView textView;
-    View v;
+    View view;
 
     public MyViewHolder(@NonNull View itemView) {
         super(itemView);
         imageView=itemView.findViewById(R.id.clientImage);
         textView=itemView.findViewById(R.id.clientName);
-        v=itemView;
+        view=itemView;
     }
 }

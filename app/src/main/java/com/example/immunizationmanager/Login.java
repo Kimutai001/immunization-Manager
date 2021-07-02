@@ -23,7 +23,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.annotations.NotNull;
 
-public class LoginActivity extends AppCompatActivity {
+public class Login extends AppCompatActivity {
 
     EditText LoginEmail, LoginPassword;
     Button LoginButton;
@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else {
 
-                    progressDialog=new ProgressDialog(LoginActivity.this);
+                    progressDialog=new ProgressDialog(Login.this);
                     progressDialog.setTitle("Logging in");
                     progressDialog.setMessage("Please Be patient...");
                     progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -91,10 +91,10 @@ public class LoginActivity extends AppCompatActivity {
                                     }
                                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                     finish();
-                                    Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Login.this, "Login successful", Toast.LENGTH_SHORT).show();
                                 } else {
                                     progressDialog.dismiss();
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
                                     builder.setMessage("Your Email is Not Verified! Resend Verification Email?");
                                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                         @Override
@@ -124,7 +124,7 @@ public class LoginActivity extends AppCompatActivity {
                         else
                             {
                                 progressDialog.dismiss();
-                                Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(Login.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                             }
                         }
 
@@ -157,13 +157,13 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull @NotNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(LoginActivity.this, "Check your email for the link to reset your password", Toast.LENGTH_LONG).show();
+                                Toast.makeText(Login.this, "Check your email for the link to reset your password", Toast.LENGTH_LONG).show();
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull @NotNull Exception e) {
-                            Toast.makeText(LoginActivity.this, "Email for password reset not sent: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(Login.this, "Email for password reset not sent: " + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
                 }

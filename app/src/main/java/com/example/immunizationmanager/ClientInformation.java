@@ -1,15 +1,15 @@
 package com.example.immunizationmanager;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,11 +18,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class ClientInformation extends AppCompatActivity {
+    FloatingActionMenu floatingActionMenu;
+    com.github.clans.fab.FloatingActionButton vaccineViewFloat, VaccineRegisterFloat;
+
 
     ImageView imageView;
     TextView textViewName,textViewDob,textViewGender,textViewFName,textViewFContact,textViewMName,textViewMContact;
-    FloatingActionButton floatingBtn;
-    private FirebaseDatabase db= FirebaseDatabase.getInstance();
+   private FirebaseDatabase db= FirebaseDatabase.getInstance();
     private DatabaseReference root=db.getReference().child("clientInfo");
     String clientName, imageNameUrl;
 
@@ -30,7 +32,7 @@ public class ClientInformation extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_information);
+        setContentView(R.layout.activity_client_information);
 
         imageView=findViewById(R.id.clientImageView);
         textViewName=findViewById(R.id.clientNameView);
@@ -41,9 +43,12 @@ public class ClientInformation extends AppCompatActivity {
         textViewMName=findViewById(R.id.mothersNameView);
         textViewMContact=findViewById(R.id.mothersContactView);
 
-        floatingBtn=findViewById(R.id.floatingBtn);
+        floatingActionMenu=findViewById(R.id.fabMenu);
+        vaccineViewFloat=findViewById(R.id.vaccineViewFloat);
+        VaccineRegisterFloat=findViewById(R.id.vaccineRegisterFloat);
 
-        floatingBtn.setOnClickListener(new View.OnClickListener() {
+
+        VaccineRegisterFloat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), RegisterVaccine.class);
@@ -51,6 +56,15 @@ public class ClientInformation extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        vaccineViewFloat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ViewVaccine.class);
+                intent.putExtra("name", clientName);
+                startActivity(intent);
+            }
+        });
+
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,8 +110,7 @@ public class ClientInformation extends AppCompatActivity {
 
             }
         });
-
-
-
     }
+
+
 }

@@ -37,7 +37,7 @@ import java.util.HashMap;
 
 public class ClientRegister extends AppCompatActivity {
     private static final int REQUEST_CODE_IMAGE = 101;
-    EditText dob,cName,cWeight,fName,fContact,mName,mContact;
+    EditText dob,cName,fName,fContact,mName,mContact;
     ImageView imageViewAdd,imageViewDate;
     Spinner spinner;
     Button clientRegister;

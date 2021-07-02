@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -20,11 +21,9 @@ import java.util.ArrayList;
 import Adapters.MyAdapter;
 import Classes.Vaccine;
 
-public class VaccineView extends AppCompatActivity {
+public class ViewVaccine extends AppCompatActivity {
     RecyclerView recyclerView;
     TextView textViewName;
-   
-
     private MyAdapter adapter;
     private ArrayList<Vaccine> list;
 
@@ -71,4 +70,10 @@ public class VaccineView extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), ClientInformation.class);
+        startActivity(intent);
+        finish();
+    }
 }

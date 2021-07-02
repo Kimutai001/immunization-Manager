@@ -48,7 +48,7 @@ public class RegisterVaccine extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
 
                         Toast.makeText(RegisterVaccine.this, "Vaccine Registered Successfully", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), VaccineView.class);
+                        Intent intent = new Intent(getApplicationContext(), ViewVaccine.class);
                         intent.putExtra("name", name);
                         startActivity(intent);
 

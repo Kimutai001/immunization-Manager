@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".VaccineView">
+    tools:context=".ViewVaccine">
     <LinearLayout
         android:id="@+id/RecyclerLinear"
         android:layout_width="wrap_content"
@@ -35,17 +35,5 @@
         android:layout_below="@+id/RecyclerLinear"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="67dp"
-        android:layout_marginLeft="300dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/darkBlue"
-        android:backgroundTint="@color/darkBlue"
-        android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_addition"
-        android:layout_alignParentRight="true"
-        android:layout_margin="25dp"/>
 
 </RelativeLayout>

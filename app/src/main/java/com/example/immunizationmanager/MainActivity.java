@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 Glide.with(MainActivity.this)
                         .load(client.getImageUrl())
                         .into(myViewHolder.imageView);
-                myViewHolder.v.setOnClickListener(new View.OnClickListener() {
+                myViewHolder.view.setOnClickListener(new View.OnClickListener() {
 
 
                     @Override
