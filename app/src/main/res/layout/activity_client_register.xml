@@ -54,8 +54,8 @@
 
                         <ImageView
                             android:id="@+id/viewDate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:layout_marginTop="30dp"
                             android:src="@drawable/ic_date" />
 
@@ -65,7 +65,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="20dp"
+                            android:layout_marginTop="30dp"
                             android:layout_toRightOf="@id/viewDate"
                             android:hint="Select date of Birth"
                             android:inputType="date" />
@@ -88,6 +88,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="50dp" />
                     </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/darkBlue"
+                        android:padding="20dp"
+                        android:text="Family Information"
+                        android:textColor="@color/white"
+                        android:textSize="16dp" />
 
                     <EditText
                         android:id="@+id/fathersName"
@@ -139,14 +148,33 @@
                         android:textColor="@color/white"
                         android:textSize="16dp" />
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="50dp"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center_vertical|center_horizontal"
                         android:orientation="horizontal">
-                        <ImageView
+
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_location"/>
-                        <Button
+                            android:text="County" />
+
+                        <Spinner
+                            android:id="@+id/county"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp" />
+                    </LinearLayout>
+                    <EditText
+                        android:id="@+id/editTextSub"
+                        android:layout_width="288dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="30dp"
+                        android:hint="Locality"
+                        android:inputType="text" />
+                    <Button
                             android:id="@+id/clientRegister"
                             android:layout_width="300dp"
                             android:layout_marginTop="20dp"
@@ -155,8 +183,6 @@
                             android:text="Register"
                             android:textColor="@color/white"
                             android:layout_marginBottom="20dp"/>
-                    </LinearLayout>
-
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

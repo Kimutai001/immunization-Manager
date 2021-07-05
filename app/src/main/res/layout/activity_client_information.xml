@@ -7,59 +7,83 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ClientInformation">
+    <include layout="@layout/client_bar"
+        android:id="@+id/clientBar"/>
 
-
-    <LinearLayout
-        android:id="@+id/line"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <de.hdodenhof.circleimageview.CircleImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_below="@id/clientBar"
                 android:id="@+id/clientImageView"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="100dp"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/avatar" />
+    <ImageView
+        android:layout_below="@id/clientImageView"
+        android:id="@+id/editPersonalData"
+        android:layout_height="25dp"
+        android:layout_width="25dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:visibility="invisible"
+        android:src="@drawable/ic_edit"
+        android:layout_marginEnd="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp" />
+     <ImageView
+         android:layout_below="@id/clientImageView"
+         android:layout_marginLeft="10dp"
+         android:layout_marginTop="20dp"
+         android:layout_height="35dp"
+         android:layout_width="25dp"
+         android:src="@drawable/ic_person"/>
 
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+        <LinearLayout
+            android:id="@+id/nameLinear"
+            android:layout_below="@id/clientImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="60dp"
+            android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
                     android:text="Name:"
-                    android:textSize="20dp" />
+                    android:textStyle="bold"
+                    android:textColor="@color/darkBlue"
+                    />
 
                 <TextView
                     android:id="@+id/clientNameView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-
                     android:paddingLeft="10dp"
                     android:text="Patient Name"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textSize="16dp"
+                     />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/dobLinear"
+                android:layout_below="@id/nameLinear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:text="Date Of Birth:"
-                    android:textSize="20dp" />
+                    android:textStyle="bold"
+                    android:textColor="@color/blue"
+                    />
 
                 <TextView
                     android:id="@+id/clientDOBView"
@@ -68,22 +92,28 @@
                     android:layout_gravity="center_horizontal"
                     android:paddingLeft="10dp"
                     android:text="Date Of Birth"
-                    android:textSize="20dp"
+                    android:textSize="16dp"
                     android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/genderLinear"
+                android:layout_below="@id/dobLinear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:text="Gender:"
-                    android:textSize="20dp" />
+                    android:textStyle="bold"
+                    android:textColor="@color/blue"
+                    />
 
                 <TextView
                     android:id="@+id/genderView"
@@ -92,22 +122,55 @@
                     android:layout_gravity="center_horizontal"
                     android:paddingLeft="10dp"
                     android:text="Patient Gender"
-                    android:textSize="20dp"
+                    android:textSize="16dp"
                     android:textStyle="bold" />
             </LinearLayout>
-
-            <LinearLayout
+   <View
+       android:layout_below="@id/genderLinear"
+       android:visibility="visible"
+      android:background="@color/darkBlue"
+       android:layout_marginStart="40dp"
+       android:layout_width="400dp"
+       android:layout_marginEnd="40dp"
+       android:layout_height="1dp"
+       android:layout_marginLeft="40dp" />
+    <ImageView
+        android:layout_below="@id/genderLinear"
+        android:id="@+id/editFamilyData"
+        android:layout_height="25dp"
+        android:layout_width="25dp"
+        android:layout_alignParentEnd="true"
+        android:visibility="invisible"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_edit"
+        android:layout_marginEnd="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp" />
+    <ImageView
+            android:id="@+id/groupView"
+            android:layout_below="@id/genderLinear"
+            android:layout_marginLeft="10dp"
+            android:layout_height="25dp"
+            android:layout_width="25dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_parents"/>
+      <LinearLayout
+          android:id="@+id/fatherLinear"
+          android:layout_below="@id/genderLinear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="60dp"
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:text="Father's Name:"
-                    android:textSize="20dp" />
+                    android:textStyle="bold"
+                    android:textColor="@color/darkBlue"
+                     />
 
                 <TextView
                     android:id="@+id/fathersNameView"
@@ -116,22 +179,27 @@
                     android:layout_gravity="center_horizontal"
                     android:paddingLeft="10dp"
                     android:text="Fathers Name"
-                    android:textSize="20dp"
+                    android:textSize="16dp"
                     android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/fContactLinear"
+                android:layout_below="@id/fatherLinear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:text="Father's Contact:"
-                    android:textSize="20dp" />
+                    android:textColor="@color/blue"
+                    android:textStyle="bold"
+                    />
 
                 <TextView
                     android:id="@+id/fathersContactView"
@@ -140,22 +208,27 @@
                     android:layout_gravity="center_horizontal"
                     android:paddingLeft="10dp"
                     android:text="Fathers contact"
-                    android:textSize="20dp"
+                    android:textSize="16dp"
                     android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/motherLinear"
+                android:layout_below="@id/fContactLinear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:text="Mother's Name:"
-                    android:textSize="20dp" />
+                    android:textStyle="bold"
+                    android:textColor="@color/darkBlue"
+                    />
 
                 <TextView
                     android:id="@+id/mothersNameView"
@@ -164,23 +237,28 @@
                     android:layout_gravity="center_horizontal"
                     android:paddingLeft="10dp"
                     android:text="Mothers Name"
-                    android:textSize="20dp"
+                    android:textSize="16dp"
                     android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/mContactLinear"
+                android:layout_below="@id/motherLinear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginLeft="60dp"
                 android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:text="Mother's Contact:"
-                    android:textSize="20sp" />
+                    android:textStyle="bold"
+                    android:textColor="@color/blue"
+                     />
 
                 <TextView
                     android:id="@+id/mothersContactView"
@@ -189,11 +267,96 @@
                     android:layout_gravity="center_horizontal"
                     android:paddingLeft="10dp"
                     android:text="Mothers Contact"
-                    android:textSize="20dp"
+                    android:textSize="16dp"
                     android:textStyle="bold" />
             </LinearLayout>
+    <View
+        android:layout_below="@id/mContactLinear"
+        android:visibility="visible"
+        android:background="@color/darkBlue"
+        android:layout_marginStart="40dp"
+        android:layout_width="400dp"
+        android:layout_marginEnd="40dp"
+        android:layout_height="1dp"
+        android:layout_marginLeft="40dp" />
+    <ImageView
+        android:layout_below="@id/mContactLinear"
+        android:id="@+id/editLocationData"
+        android:layout_height="25dp"
+        android:layout_width="25dp"
+        android:layout_alignParentEnd="true"
+        android:visibility="invisible"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_edit"
+        android:layout_marginEnd="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp" />
 
+        <ImageView
+            android:id="@+id/location"
+            android:layout_below="@id/mContactLinear"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_location"/>
+        <LinearLayout
+            android:id="@+id/countyLinear"
+            android:layout_below="@id/mContactLinear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="County:"
+                android:textStyle="bold"
+                android:textColor="@color/darkBlue"
+                />
+
+            <TextView
+                android:id="@+id/countyView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingLeft="10dp"
+                android:text="County"
+                android:textSize="16dp"
+                android:textStyle="bold" />
         </LinearLayout>
+        <LinearLayout
+            android:layout_below="@id/countyLinear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Sub County:"
+                android:textStyle="bold"
+                android:textColor="@color/blue"
+                 />
+
+            <TextView
+                android:id="@+id/subCountyView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingLeft="10dp"
+                android:text=" Sub County"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/fabMenu"
         android:layout_width="wrap_content"

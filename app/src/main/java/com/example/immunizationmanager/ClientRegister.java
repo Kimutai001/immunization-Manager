@@ -2,6 +2,7 @@ package com.example.immunizationmanager;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -37,29 +38,18 @@ import java.util.HashMap;
 
 public class ClientRegister extends AppCompatActivity {
     private static final int REQUEST_CODE_IMAGE = 101;
-    EditText dob,cName,fName,fContact,mName,mContact;
+    EditText dob,cName,fName,fContact,mName,mContact,locality;
     ImageView imageViewAdd,imageViewDate;
-    Spinner spinner;
+    Spinner spinner,countySpinner;
     Button clientRegister;
-    String gender;
+    String gender,counties;
     ProgressDialog progressDialog;
-
     Uri imageUri;
     boolean isImageAdded;
 
-    private FirebaseDatabase db= FirebaseDatabase.getInstance();
-    private DatabaseReference root=db.getReference().child("clientInfo");
+
+    private DatabaseReference root;
     StorageReference storageReference;
-
-
-    DatePickerDialog.OnDateSetListener setListener = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            month=month+1;
-            String date=day+"/"+month+"/"+year;
-            dob.setText(date);
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,30 +63,25 @@ public class ClientRegister extends AppCompatActivity {
         mName=findViewById(R.id.mothersName);
         mContact=findViewById(R.id.mothersContact);
         spinner=findViewById(R.id.sex);
+        countySpinner=findViewById(R.id.county);
         dob=findViewById(R.id.DOB);
         imageViewDate=findViewById(R.id.viewDate);
+        locality=findViewById(R.id.editTextSub);
         clientRegister=findViewById(R.id.clientRegister);
         imageViewAdd=findViewById(R.id.imageViewAdd);
 
-
         storageReference= FirebaseStorage.getInstance().getReference().child("clientImages");
+        root=FirebaseDatabase.getInstance().getReference().child("clientInfo");
 
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(ClientRegister.this, R.array.gender, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        DatePickerDialog.OnDateSetListener setListener = new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                gender = parent.getItemAtPosition(position).toString();
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                month=month+1;
+                String date=day+"/"+month+"/"+year;
+                dob.setText(date);
             }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                gender = "Male";
-            }
-        });
-
+        };
         Calendar calendar=Calendar.getInstance();
         final int year=calendar.get(Calendar.YEAR);
         final int month=calendar.get(Calendar.MONTH);
@@ -113,54 +98,85 @@ public class ClientRegister extends AppCompatActivity {
             }
         });
 
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(ClientRegister.this, R.array.gender, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                gender = parent.getItemAtPosition(position).toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                gender = "Male";
+            }
+        });
+
+
+        ArrayAdapter<CharSequence> adapterCounty = ArrayAdapter.createFromResource(ClientRegister.this, R.array.counties, android.R.layout.simple_spinner_item);
+        adapterCounty.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        countySpinner.setAdapter(adapterCounty);
+        countySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                counties = parent.getItemAtPosition(position).toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         imageViewAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent=new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(intent,REQUEST_CODE_IMAGE);
             }
         });
-
-
-        clientRegister.setOnClickListener(new View.OnClickListener() {
+    clientRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String childName=cName.getText().toString().trim();
                 String childBirthDate=dob.getText().toString().trim();
-
                 String fathersName=fName.getText().toString().trim();
                 String fathersContact=fContact.getText().toString().trim();
                 String mothersName=mName.getText().toString().trim();
                 String mothersContact=mContact.getText().toString().trim();
+                String subCounty=locality.getText().toString().trim();
 
-                if(isImageAdded!=false && childName!=null){
-                    uploadImage(childName,childBirthDate,fathersName,fathersContact,mothersName,mothersContact);
+                if(isImageAdded){
+                    uploadImage(childName,childBirthDate,fathersName,fathersContact,mothersName,mothersContact,subCounty);
                 }
             }
         });
 
     }
 
-    private void uploadImage(String childName, String childBirthDate,  String fathersName, String fathersContact, String mothersName, String mothersContact) {
+    private void selectImage(Context context) {
+    }
+
+    private void uploadImage(String childName, String childBirthDate,  String fathersName, String fathersContact, String mothersName, String mothersContact,String subCounty) {
         progressDialog=new ProgressDialog(ClientRegister.this);
         progressDialog.setTitle("Registering Client");
         progressDialog.setMessage("Please Wait...");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setMax(100);
         progressDialog.show();
         progressDialog.setCancelable(false);
 
         try {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
             ByteArrayOutputStream bout = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.WEBP, 25, bout);
+            bitmap.compress(Bitmap.CompressFormat.WEBP, 75, bout);
             byte[] bytes = bout.toByteArray();
             bout.close();
 
             String key=root.push().getKey();
-            StorageReference fileRef =storageReference.child("clientImages/"+key);
+            StorageReference fileRef =storageReference.child("clientImages/");
             UploadTask uploadTask  = fileRef.putBytes(bytes);
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -178,6 +194,8 @@ public class ClientRegister extends AppCompatActivity {
                             hashMap.put("mothersName",mothersName);
                             hashMap.put("mothersContact",mothersContact);
                             hashMap.put("Gender",gender);
+                            hashMap.put("county",counties);
+                            hashMap.put("subCounty",subCounty);
 
                             root.push().setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override

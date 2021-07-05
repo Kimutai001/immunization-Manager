@@ -3,21 +3,27 @@ package com.example.immunizationmanager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,11 +50,12 @@ import java.io.IOException;
 import Classes.User;
 
 public class Profile extends AppCompatActivity {
-    TextView PName,PEmail,PPhone,logout;
-    ImageView profileImage,edit;
+    TextView PName,PEmail,PPhone;
+    ImageView profileImage,edit,popup;
     Button changeProfile;
     FirebaseAuth fAuth;
     StorageReference storageReference;
+    ProgressBar progressBar;
 
     private FirebaseUser user;
     private DatabaseReference reference;
@@ -63,7 +70,8 @@ public class Profile extends AppCompatActivity {
         PPhone=findViewById(R.id.userPhone);
         changeProfile=findViewById(R.id.changeProfile);
         profileImage=findViewById(R.id.Profile_Image);
-        logout=findViewById(R.id.logout);
+        popup=findViewById(R.id.popup);
+        progressBar=findViewById(R.id.progressbar);
         edit=findViewById(R.id.editIcon);
 
         fAuth= FirebaseAuth.getInstance();
@@ -131,12 +139,24 @@ public class Profile extends AppCompatActivity {
             }
         });
 
-        logout.setOnClickListener(new View.OnClickListener() {
+        popup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getApplicationContext(), Login.class));
+                PopupMenu popupmenu = new PopupMenu(Profile.this,popup);popupmenu.getMenuInflater().inflate(R.menu.profile_menu, popupmenu.getMenu());
+                popupmenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int id=item.getItemId();
+                        if(id==R.id.edit){
+                           edit.setVisibility(View.VISIBLE);
+                        } else if(id==R.id.logout){
+                            FirebaseAuth.getInstance().signOut();
+                            startActivity(new Intent(getApplicationContext(), Login.class));
+                        }
+                        return true;
+                    }
+                });
 
+                popupmenu.show();
             }
         });
 
@@ -144,17 +164,46 @@ public class Profile extends AppCompatActivity {
         changeProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent openGallery =new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(openGallery,1000);
+               selectImage();
             }
         });
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent =new Intent(Profile.this,ViewImages.class);
+                intent.putExtra("User",user);
+                startActivity(intent);
                 showUpdateDialog();
             }
         });
 
+    }
+
+    private void selectImage() {
+        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Choose your profile picture");
+
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+
+                if (options[item].equals("Take Photo")) {
+                    Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(takePicture, 0);
+
+                } else if (options[item].equals("Choose from Gallery")) {
+                    Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(pickPhoto , 1);
+
+                } else if (options[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
     }
 
 
@@ -166,8 +215,8 @@ public class Profile extends AppCompatActivity {
 
 
         final EditText updateNameText=(EditText) view.findViewById(R.id.nameUpdate);
-        final EditText updateEmailText=(EditText) view.findViewById(R.id.emailUpdate);
         final EditText updatePhoneText=(EditText) view.findViewById(R.id.phoneUpdate);
+        final EditText updateEmailText=(EditText) view.findViewById(R.id.emailUpdate);
         final Button updateButton=(Button) view.findViewById(R.id.updateProfile);
 
         builder.setTitle("Update Profile");
@@ -178,21 +227,29 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String fullNames=updateNameText.getText().toString().trim();
-                String email=updateEmailText.getText().toString().trim();
                 String phone=updatePhoneText.getText().toString().trim();
-
+                String email=updateEmailText.getText().toString().trim();
                 if (TextUtils.isEmpty(fullNames)){
                     updateNameText.setError("Name Required");
                     updateNameText.requestFocus();
                     return;
                 }
-
-                if (TextUtils.isEmpty(phone)){
-                    updatePhoneText.setError("Phone Number Required");
+                if(TextUtils.isEmpty(email)){
+                    updateEmailText.setError("Email account Email");
+                    updateEmailText.requestFocus();
+                    return;
+                }
+                if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                    updateEmailText.setError("Enter valid email");
+                    updateEmailText.requestFocus();
+                    return;
+                }
+                if(TextUtils.isEmpty(phone)){
+                    updatePhoneText.setError("Enter Phone Number");
                     updatePhoneText.requestFocus();
                     return;
                 }
-                updateDetails(fullNames,email,phone);
+                updateDetails(fullNames,phone,email);
                 alertDialog.dismiss();
 
             }
@@ -200,10 +257,11 @@ public class Profile extends AppCompatActivity {
 
     }
 
-    private boolean updateDetails(String fullNames,String email,String phone){
+    private boolean updateDetails(String fullNames,String phone,String email){
         DatabaseReference reference=FirebaseDatabase.getInstance().getReference("users").child(userID);
-        User user=new User(fullNames,email,phone);
+        User user=new User(fullNames,phone,email);
         reference.setValue(user);
+        startActivity(new Intent(getApplicationContext(), Profile.class));
         Toast.makeText(this, "Details Updated Successfully", Toast.LENGTH_LONG).show();
         return true;
     }
@@ -212,14 +270,37 @@ public class Profile extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==1000){
-            if(resultCode== Activity.RESULT_OK){
-                Uri imageUri=data.getData();
-                // profileImage.setImageURI(imageUri);
+        if(resultCode != RESULT_CANCELED) {
+            Uri imageUri=data.getData();
+            switch (requestCode) {
+                case 0:
+                    if (resultCode == RESULT_OK && data != null) {
+                        Bitmap selectedImage = (Bitmap) data.getExtras().get("data");
+                        profileImage.setImageBitmap(selectedImage);
+                    }
 
+                    break;
+                case 1:
+                    if (resultCode == RESULT_OK && data != null) {
+                        Uri selectedImage =  data.getData();
+                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                        if (selectedImage != null) {
+                            Cursor cursor = getContentResolver().query(selectedImage,
+                                    filePathColumn, null, null, null);
+                            if (cursor != null) {
+                                cursor.moveToFirst();
 
-                uploadImageToFirebase(imageUri);
+                                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                                String picturePath = cursor.getString(columnIndex);
+                                profileImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                                cursor.close();
+                            }
+                        }
+
+                    }
+                    break;
             }
+            uploadImageToFirebase(imageUri);
         }
     }
 
@@ -227,22 +308,25 @@ public class Profile extends AppCompatActivity {
         try {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
             ByteArrayOutputStream bout = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.WEBP, 25, bout);
+            bitmap.compress(Bitmap.CompressFormat.WEBP, 75, bout);
             byte[] bytes = bout.toByteArray();
             bout.close();
 
             StorageReference fileRef =storageReference.child("users/"+fAuth.getCurrentUser().getUid());
             UploadTask uploadTask  = fileRef.putBytes(bytes);
+            progressBar.setVisibility(View.VISIBLE);
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(Profile.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
-                    fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                   fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             Picasso.get().load(uri).into(profileImage);
                         }
                     });
+                    progressBar.setVisibility(View.INVISIBLE);
+
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

@@ -8,19 +8,57 @@
     android:padding="10dp"
     android:layout_margin="15dp"
     >
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="50dp"
-        android:layout_gravity="center_vertical"
-        android:layout_height="50dp"
-        android:id="@+id/clientImage"
-        android:layout_marginLeft="20dp"
-        android:src="@drawable/ic_launcher_foreground" />
-    <TextView
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/clientName"
-        android:text="Patient Name"
-        android:layout_marginLeft="80dp"
-        android:layout_gravity="center_vertical"
-        android:textSize="18sp"/>
+        android:layout_height="wrap_content">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="match_parent"
+            android:id="@+id/clientImage"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/ic_launcher_foreground" />
+        <TextView
+            android:id="@+id/nameView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/darkBlue"
+            android:text="Client Name:"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"
+            android:layout_toRightOf="@id/clientImage"
+            android:layout_marginLeft="10dp" />
+        <TextView
+            android:layout_toRightOf="@id/nameView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:id="@+id/clientName"
+            android:text="Patient Name"
+            android:layout_gravity="center_vertical"
+            android:textSize="16sp"/>
+        <TextView
+            android:id="@+id/DOBView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DOB:"
+            android:textStyle="bold"
+            android:textColor="@color/blue"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/nameView"
+            android:layout_toRightOf="@id/clientImage"
+            android:layout_marginLeft="10dp" />
+        <TextView
+            android:layout_below="@id/clientName"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/birthDate"
+            android:text="Date Of Birth."
+            android:layout_toRightOf="@id/DOBView"
+            android:layout_gravity="center_vertical"
+            android:textSize="16sp"/>
+    </RelativeLayout>
+
 </androidx.cardview.widget.CardView>

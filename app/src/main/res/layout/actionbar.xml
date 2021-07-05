@@ -14,10 +14,19 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow"/>
         <TextView
-            android:id="@+id/logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LOGOUT"
+            android:text="PROFILE"
+            android:textColor="@color/white"
+            android:layout_toRightOf="@id/backIcon"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp" />
+
+        <ImageView
+            android:id="@+id/popup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_more"
             android:textColor="@color/white"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true" />

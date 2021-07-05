@@ -12,6 +12,47 @@
         android:layout_height="wrap_content"
         android:hint="vaccine Name"
         android:layout_gravity="center_horizontal"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mode Of Administration" />
+
+        <Spinner
+            android:id="@+id/adminMode"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TimeLine" />
+
+        <Spinner
+            android:id="@+id/timeLine"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
+
+
     <EditText
         android:id="@+id/date"
         android:layout_width="wrap_content"

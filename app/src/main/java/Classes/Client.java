@@ -3,18 +3,18 @@ package Classes;
 public class Client {
     private String clientName;
     private String imageUrl;
-    String vaccineName;
-
     private String Gender;
     private String clientDOB;
     private String fathersName;
     private String fathersContact;
     private String mothersName;
     private String mothersContact;
+    private String county;
+    private String subCounty;
 
   
 
-    public Client(String clientName, String imageUrl, String gender, String clientDOB, String fathersName, String fathersContact, String mothersName, String mothersContact, String vaccineName) {
+    public Client(String clientName, String imageUrl, String gender, String clientDOB, String fathersName, String fathersContact, String mothersName, String mothersContact, String county,String subCounty) {
         this.clientName = clientName;
         this.imageUrl = imageUrl;
         Gender = gender;
@@ -23,11 +23,16 @@ public class Client {
         this.fathersContact = fathersContact;
         this.mothersName = mothersName;
         this.mothersContact = mothersContact;
-        this.vaccineName = vaccineName;
+        this.county=county;
+        this.subCounty=subCounty;
+
         
     }
 
     public Client() {
+    }
+
+    public Client(String cNameUpdate, String dateOBUpdate, String gender) {
     }
 
     public String getClientName() {
@@ -94,11 +99,19 @@ public class Client {
         this.mothersContact = mothersContact;
     }
 
-    public String getVaccineName() {
-        return vaccineName;
+    public String getCounty() {
+        return county;
     }
 
-    public void setVaccineName(String vaccineName) {
-        this.vaccineName = vaccineName;
+    public void setCounty(String county) {
+        this.county = county;
+    }
+
+    public String getSubCounty() {
+        return subCounty;
+    }
+
+    public void setSubCounty(String subCounty) {
+        this.subCounty = subCounty;
     }
 }

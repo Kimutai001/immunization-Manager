@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/notificationName"
+        android:layout_width="300dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:hint=" Notification Title"
+        android:layout_gravity="center_horizontal"
+        />
+
+    <EditText
+        android:id="@+id/notificationContent"
+        android:layout_width="300dp"
+        android:layout_height="53dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:hint=" Notification Content"
+        android:padding="10dp" />
+
+    <Button
+        android:id="@+id/notificationCancel"
+        android:layout_width="200dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:text="Cancel"
+        android:textColor="@color/white"
+        android:layout_marginBottom="20dp"/>
+    <Button
+        android:id="@+id/notification"
+        android:layout_width="200dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:text="notification"
+        android:textColor="@color/white"
+        android:layout_marginBottom="20dp"/>
+
+
+</LinearLayout>

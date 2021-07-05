@@ -44,7 +44,6 @@ public class StartActivity extends AppCompatActivity {
                             intent.putExtra("email", Email);
                             startActivity(intent);
                             finish();
-                            Toast.makeText(StartActivity.this, "Welcome Back", Toast.LENGTH_LONG).show();
                         } else {
                             Intent intent = new Intent(getApplicationContext(), Login.class);
                             intent.putExtra("email", Email);

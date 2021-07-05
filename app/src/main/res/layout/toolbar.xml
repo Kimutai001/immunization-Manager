@@ -2,25 +2,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/darkBlue">
+    android:background="@color/darkBlue"
+    android:padding="18dp">
+        <TextView
+            android:id="@+id/appName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="IMMUNIZATION MANAGER"
+            android:textColor="@color/white"
+            android:layout_centerVertical="true"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="18dp">
         <ImageView
+            android:layout_toRightOf="@id/appName"
             android:id="@+id/profileIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_account"/>
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_account"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="70dp"/>
 
         <ImageView
+            android:layout_toRightOf="@id/profileIcon"
             android:id="@+id/addIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
             android:src="@drawable/ic_add"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true" />
-    </RelativeLayout>
+            android:layout_marginLeft="30dp"
+            />
+
 
 </RelativeLayout>

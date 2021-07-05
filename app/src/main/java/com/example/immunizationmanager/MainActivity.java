@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), ClientRegister.class));
-                finish();
             }
         });
         loadData("");
@@ -100,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i, @NonNull Client client) {
                 myViewHolder.textView.setText(client.getClientName());
+                myViewHolder.textViewDOB.setText(client.getClientDOB());
 
                 Glide.with(MainActivity.this)
                         .load(client.getImageUrl())
