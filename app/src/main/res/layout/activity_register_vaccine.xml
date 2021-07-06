@@ -6,11 +6,19 @@
     tools:context=".RegisterVaccine"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/vaccineName"
+    <ImageView
+        android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="vaccine Name"
+        android:layout_gravity="center"
+        android:src="@drawable/vaccine"/>
+
+    <EditText
+        android:id="@+id/vaccineName"
+        android:layout_marginTop="10dp"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:hint=" Enter vaccine Name"
         android:layout_gravity="center_horizontal"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -55,7 +63,7 @@
 
     <EditText
         android:id="@+id/date"
-        android:layout_width="wrap_content"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:hint="Date Vaccinated"
         android:layout_gravity="center_horizontal"/>
@@ -64,7 +72,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:background="@drawable/text"
-        android:text="Register"
+        android:text="Register Vaccine"
         android:textColor="@color/white"
         android:layout_gravity="center_horizontal"/>
 </LinearLayout>

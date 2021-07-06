@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,8 +25,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -149,15 +153,48 @@ public class ClientRegister extends AppCompatActivity {
                 String mothersContact=mContact.getText().toString().trim();
                 String subCounty=locality.getText().toString().trim();
 
+                if(TextUtils.isEmpty(childName)){
+                    cName.setError("Enter Child Name ");
+                    cName.requestFocus();
+                    return;
+                }
+                if(TextUtils.isEmpty(childBirthDate)){
+                    dob.setError("Enter Child Date Of Birth ");
+                    dob.requestFocus();
+                    return;
+                }
+                if(TextUtils.isEmpty(fathersName)){
+                    fName.setError("Enter Fathers Contact");
+                    fName.requestFocus();
+                    return;
+                }
+                if(TextUtils.isEmpty(fathersContact)){
+                    fContact.setError("Enter Fathers Contact ");
+                    fContact.requestFocus();
+                    return;
+                }
+                if(TextUtils.isEmpty(mothersName)){
+                    mName.setError("Enter Mothers Name ");
+                    mContact.requestFocus();
+                    return;
+                }
+                if(TextUtils.isEmpty(mothersContact)){
+                    mContact.setError("Enter Mothers Contact ");
+                    mContact.requestFocus();
+                    return;
+                }
+                if(TextUtils.isEmpty(subCounty)){
+                    locality.setError("Enter Location ");
+                    locality.requestFocus();
+                    return;
+                }
+
                 if(isImageAdded){
                     uploadImage(childName,childBirthDate,fathersName,fathersContact,mothersName,mothersContact,subCounty);
                 }
             }
         });
 
-    }
-
-    private void selectImage(Context context) {
     }
 
     private void uploadImage(String childName, String childBirthDate,  String fathersName, String fathersContact, String mothersName, String mothersContact,String subCounty) {
@@ -197,19 +234,30 @@ public class ClientRegister extends AppCompatActivity {
                             hashMap.put("county",counties);
                             hashMap.put("subCounty",subCounty);
 
-                            root.push().setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            root.push().setValue(hashMap, new DatabaseReference.CompletionListener() {
                                 @Override
-                                public void onSuccess(Void aVoid) {
-                                    Toast.makeText(ClientRegister.this, "Client Registered Successfully", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                                    finish();
+                                public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                                    String key=ref.getKey();
+                                    DatabaseReference reference = root.child(key);
+                                    reference.child("key").setValue(key).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                           if(task.isSuccessful()){
+                                               Toast.makeText(ClientRegister.this, "Client Registered Successfully", Toast.LENGTH_SHORT).show();
+                                               Intent intent =new Intent(ClientRegister.this,MainActivity.class);
+                                               intent.putExtra("key",key);
+                                               startActivity(intent);
+                                               finish();
+                                           }
+                                        }
+                                    });
                                 }
-
                             });
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(ClientRegister.this, "Client Registration Failed", Toast.LENGTH_SHORT).show();
 
                         }
                     });

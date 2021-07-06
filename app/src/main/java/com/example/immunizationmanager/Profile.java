@@ -27,8 +27,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -46,6 +49,8 @@ import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import Classes.User;
 
@@ -83,7 +88,7 @@ public class Profile extends AppCompatActivity {
         reference= FirebaseDatabase.getInstance().getReference("users");
         userID=user.getUid();
 
-        reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.child(userID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User userProfile=snapshot.getValue(User.class);
@@ -170,9 +175,6 @@ public class Profile extends AppCompatActivity {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(Profile.this,ViewImages.class);
-                intent.putExtra("User",user);
-                startActivity(intent);
                 showUpdateDialog();
             }
         });
@@ -180,7 +182,7 @@ public class Profile extends AppCompatActivity {
     }
 
     private void selectImage() {
-        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
+        final CharSequence[] options = {  "Choose from Gallery","Cancel" };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Choose your profile picture");
@@ -190,11 +192,7 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int item) {
 
-                if (options[item].equals("Take Photo")) {
-                    Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(takePicture, 0);
-
-                } else if (options[item].equals("Choose from Gallery")) {
+                if (options[item].equals("Choose from Gallery")) {
                     Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(pickPhoto , 1);
 
@@ -216,7 +214,6 @@ public class Profile extends AppCompatActivity {
 
         final EditText updateNameText=(EditText) view.findViewById(R.id.nameUpdate);
         final EditText updatePhoneText=(EditText) view.findViewById(R.id.phoneUpdate);
-        final EditText updateEmailText=(EditText) view.findViewById(R.id.emailUpdate);
         final Button updateButton=(Button) view.findViewById(R.id.updateProfile);
 
         builder.setTitle("Update Profile");
@@ -228,20 +225,9 @@ public class Profile extends AppCompatActivity {
             public void onClick(View v) {
                 String fullNames=updateNameText.getText().toString().trim();
                 String phone=updatePhoneText.getText().toString().trim();
-                String email=updateEmailText.getText().toString().trim();
                 if (TextUtils.isEmpty(fullNames)){
                     updateNameText.setError("Name Required");
                     updateNameText.requestFocus();
-                    return;
-                }
-                if(TextUtils.isEmpty(email)){
-                    updateEmailText.setError("Email account Email");
-                    updateEmailText.requestFocus();
-                    return;
-                }
-                if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                    updateEmailText.setError("Enter valid email");
-                    updateEmailText.requestFocus();
                     return;
                 }
                 if(TextUtils.isEmpty(phone)){
@@ -249,7 +235,7 @@ public class Profile extends AppCompatActivity {
                     updatePhoneText.requestFocus();
                     return;
                 }
-                updateDetails(fullNames,phone,email);
+                updateDetails(fullNames,phone);
                 alertDialog.dismiss();
 
             }
@@ -257,13 +243,17 @@ public class Profile extends AppCompatActivity {
 
     }
 
-    private boolean updateDetails(String fullNames,String phone,String email){
-        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("users").child(userID);
-        User user=new User(fullNames,phone,email);
-        reference.setValue(user);
-        startActivity(new Intent(getApplicationContext(), Profile.class));
-        Toast.makeText(this, "Details Updated Successfully", Toast.LENGTH_LONG).show();
-        return true;
+    private void updateDetails(String fullNames,String phone) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(userID);
+        Map<String, Object> user = new HashMap<>();
+        user.put("fullNames", fullNames);
+        user.put("phone", phone);
+
+        reference.updateChildren(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+            }
+        });
     }
 
 
@@ -279,25 +269,6 @@ public class Profile extends AppCompatActivity {
                         profileImage.setImageBitmap(selectedImage);
                     }
 
-                    break;
-                case 1:
-                    if (resultCode == RESULT_OK && data != null) {
-                        Uri selectedImage =  data.getData();
-                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                        if (selectedImage != null) {
-                            Cursor cursor = getContentResolver().query(selectedImage,
-                                    filePathColumn, null, null, null);
-                            if (cursor != null) {
-                                cursor.moveToFirst();
-
-                                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                                String picturePath = cursor.getString(columnIndex);
-                                profileImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-                                cursor.close();
-                            }
-                        }
-
-                    }
                     break;
             }
             uploadImageToFirebase(imageUri);
@@ -322,7 +293,9 @@ public class Profile extends AppCompatActivity {
                    fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            Picasso.get().load(uri).into(profileImage);
+                            Glide.with(getApplicationContext())
+                                    .load(uri)
+                                    .into(profileImage);
                         }
                     });
                     progressBar.setVisibility(View.INVISIBLE);
@@ -337,14 +310,5 @@ public class Profile extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
-
-    @Override
-    public void onBackPressed() {
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-        finish();
-    }
-
 }

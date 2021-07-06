@@ -52,7 +52,7 @@
                     android:layout_gravity="center_vertical"
                     android:text="Name:"
                     android:textStyle="bold"
-                    android:textColor="@color/darkBlue"
+                    android:textColor="@color/blue"
                     />
 
                 <TextView
@@ -169,7 +169,7 @@
                     android:layout_gravity="center_vertical"
                     android:text="Father's Name:"
                     android:textStyle="bold"
-                    android:textColor="@color/darkBlue"
+                    android:textColor="@color/blue"
                      />
 
                 <TextView
@@ -227,7 +227,7 @@
                     android:layout_gravity="center_vertical"
                     android:text="Mother's Name:"
                     android:textStyle="bold"
-                    android:textColor="@color/darkBlue"
+                    android:textColor="@color/blue"
                     />
 
                 <TextView
@@ -315,7 +315,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="County:"
                 android:textStyle="bold"
-                android:textColor="@color/darkBlue"
+                android:textColor="@color/blue"
                 />
 
             <TextView

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ClientRegister">
+
+                <LinearLayout
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="50dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="County" />
+
+                    <Spinner
+                        android:id="@+id/countyUpdate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp" />
+                </LinearLayout>
+                <EditText
+                    android:id="@+id/editTextSubCountyUpdate"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="30dp"
+                    android:hint="Locality"
+                    android:inputType="text" />
+                <Button
+                    android:id="@+id/locationUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/text"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Update Location"
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="20dp"/>
+</LinearLayout>
+

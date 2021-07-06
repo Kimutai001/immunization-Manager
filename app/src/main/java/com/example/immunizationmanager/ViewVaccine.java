@@ -38,13 +38,11 @@ import Adapters.MyAdapter;
 import Classes.Vaccine;
 
 public class ViewVaccine extends AppCompatActivity {
-    ImageView imageView;
+    ImageView imageView,reminderPop;
     RecyclerView recyclerView;
     TextView textViewName;
     private MyAdapter adapter;
     private ArrayList<Vaccine> list;
-
-
 
 
     @Override
@@ -52,39 +50,34 @@ public class ViewVaccine extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_vaccine);
 
-        recyclerView=findViewById(R.id.recycler);
-        textViewName=findViewById(R.id.nameView);
-        imageView=findViewById(R.id.reminder);
+        recyclerView = findViewById(R.id.recycler);
+        textViewName = findViewById(R.id.nameView);
 
         Bundle extras = getIntent().getExtras();
         String name = extras.getString("name");
+        String key = extras.getString("key");
+
 
         textViewName.setText(name);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setHasFixedSize(true);
 
-        list=new ArrayList<>();
-        adapter=new MyAdapter(getApplicationContext(),list);
+        list = new ArrayList<>();
+        adapter = new MyAdapter(getApplicationContext(), list);
         recyclerView.setAdapter(adapter);
 
-        Query query = FirebaseDatabase.getInstance().getReference().child("vaccine").orderByChild("clientName").equalTo(name);
+
+        Query query = FirebaseDatabase.getInstance().getReference().child("clientInfo").child(key).child("vaccine");
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot snap : snapshot.getChildren()){
-                    /*String vaccine = snap.child("VaccineName").getValue().toString();
-                    String adminDate=snap.child("DateVaccinated").getValue().toString();
-                    String timeLine=snap.child("timeLine").getValue().toString();
-                    String mode=snap.child("Mode").getValue().toString();
-                    Log.v("myTag", "found");*/
+                for (DataSnapshot snap : snapshot.getChildren()) {
                     Vaccine vaccine = snap.getValue(Vaccine.class);
                     list.add(vaccine);
                     adapter.notifyItemInserted(list.size());
 
                 }
-
-                //adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -94,12 +87,5 @@ public class ViewVaccine extends AppCompatActivity {
         });
 
     }
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(getApplicationContext(), ClientInformation.class);
-        startActivity(intent);
-        finish();
-    }
-
 
 }

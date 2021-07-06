@@ -44,7 +44,6 @@
             android:layout_height="wrap_content"
             android:text="DOB:"
             android:textStyle="bold"
-            android:textColor="@color/blue"
             android:layout_marginTop="10dp"
             android:layout_below="@id/nameView"
             android:layout_toRightOf="@id/clientImage"

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ClientRegister">
+           <EditText
+               android:id="@+id/fathersNameUpdate"
+               android:layout_width="300dp"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center_horizontal"
+               android:hint="Enter fathers Name"
+               android:inputType="text" />
+
+                <EditText
+                    android:id="@+id/fathersContactUpdate"
+                    android:layout_below="@id/fathersNameUpdate"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:hint="Enter father's Contact"
+                    android:inputType="number" />
+
+                <EditText
+                    android:layout_below="@id/fathersContactUpdate"
+                    android:id="@+id/mothersNameUpdate"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:hint="Enter Mother's Name"
+                    android:inputType="text" />
+
+                <EditText
+                    android:id="@+id/mothersContactUpdate"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:hint="Enter Mother's Contact"
+                    android:inputType="number" />
+
+
+                <Button
+                    android:id="@+id/updateFamilyDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/text"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Update Family Details"
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="20dp" />
+
+</LinearLayout>

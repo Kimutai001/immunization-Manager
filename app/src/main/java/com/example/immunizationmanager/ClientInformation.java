@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,7 +24,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.clans.fab.FloatingActionMenu;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,6 +37,8 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import Classes.Client;
 import Classes.User;
@@ -49,7 +54,7 @@ public class ClientInformation extends AppCompatActivity {
    private FirebaseDatabase db= FirebaseDatabase.getInstance();
     private DatabaseReference root=db.getReference().child("clientInfo"),dataRef;
     StorageReference storageRef;
-    String clientName, imageNameUrl,gender,counties;
+    String clientName, imageNameUrl,gender,counties, clientKey;
 
 
 
@@ -74,10 +79,9 @@ public class ClientInformation extends AppCompatActivity {
         editFamilyData=findViewById(R.id.editFamilyData);
         editLocationData=findViewById(R.id.editLocationData);
 
-        String clientKey=getIntent().getStringExtra("clientKey");
+        clientKey=getIntent().getStringExtra("clientKey");
         dataRef=FirebaseDatabase.getInstance().getReference().child("clientInfo").child(clientKey);
         storageRef= FirebaseStorage.getInstance().getReference().child("clientInfo").child(clientKey);
-
 
         floatingActionMenu=findViewById(R.id.fabMenu);
         vaccineViewFloat=findViewById(R.id.vaccineViewFloat);
@@ -89,6 +93,7 @@ public class ClientInformation extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), RegisterVaccine.class);
                 intent.putExtra("name", clientName);
+                intent.putExtra("key", clientKey);
                 startActivity(intent);
             }
         });
@@ -97,9 +102,12 @@ public class ClientInformation extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ViewVaccine.class);
                 intent.putExtra("name", clientName);
+                intent.putExtra("key", clientKey);
                 startActivity(intent);
             }
         });
+
+
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +117,7 @@ public class ClientInformation extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         editShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,6 +126,8 @@ public class ClientInformation extends AppCompatActivity {
                 editLocationData.setVisibility(View.VISIBLE);
             }
         });
+
+
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,11 +150,23 @@ public class ClientInformation extends AppCompatActivity {
         });
 
 
-
         editPersonalData.setOnClickListener(new View.OnClickListener() {
             @Override
+            final
             public void onClick(View v) {
                 showPersonalDataUpdateDialog();
+            }
+        });
+        editFamilyData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFamilyDataUpdateDialog();
+            }
+        });
+        editLocationData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShowLocationUpdateDialog();
             }
         });
 
@@ -182,6 +205,136 @@ public class ClientInformation extends AppCompatActivity {
             }
         });
     }
+
+
+
+    private void ShowLocationUpdateDialog() {
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        LayoutInflater inflater=getLayoutInflater();
+        final View view=inflater.inflate(R.layout.location_data_update,null);
+
+        final Spinner  countySelect=(Spinner)view.findViewById(R.id.countyUpdate);
+        final EditText subCounty=(EditText) view.findViewById(R.id.editTextSubCountyUpdate);
+        final Button locationUpdate=(Button) view.findViewById(R.id.locationUpdate);
+
+        ArrayAdapter<CharSequence> adapterCounty = ArrayAdapter.createFromResource(ClientInformation.this, R.array.counties, android.R.layout.simple_spinner_item);
+        adapterCounty.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+          countySelect.setAdapter(adapterCounty);
+          countySelect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                counties = parent.getItemAtPosition(position).toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        builder.setView(view);
+        builder.setTitle("Update Location Data");
+        AlertDialog alertDialog=builder.create();
+        alertDialog.show();
+
+        locationUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String sCounty=subCounty.getText().toString();
+
+                if(TextUtils.isEmpty(sCounty)){
+                    subCounty.setError("Enter Updated Location ");
+                    subCounty.requestFocus();
+                    return;
+                }
+
+                updateLocationDetails(sCounty,counties);
+                alertDialog.dismiss();
+            }
+        });
+    }
+
+    private void updateLocationDetails(String sCounty, String counties) {
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("clientInfo").child(clientKey);
+        Map<String, Object> client = new HashMap<>();
+        client.put("county", counties);
+        client.put("subCounty", sCounty);
+
+        reference.updateChildren(client).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+            }
+        });
+    }
+
+
+
+    private void showFamilyDataUpdateDialog() {
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        LayoutInflater inflater=getLayoutInflater();
+        final View view=inflater.inflate(R.layout.family_data_update,null);
+
+        final EditText updateFathersName= view.findViewById(R.id.fathersNameUpdate);
+        final EditText updateFathersContact=(EditText) view.findViewById(R.id.fathersContactUpdate);
+        final EditText updateMotherName=(EditText) view.findViewById(R.id.mothersNameUpdate);
+        final EditText updateMothersContact=(EditText) view.findViewById(R.id.mothersContactUpdate);
+        final Button updateFamilyButton=(Button) view.findViewById(R.id.updateFamilyDetails);
+
+        builder.setView(view);
+        builder.setTitle("Update Family Data");
+        AlertDialog alertDialog=builder.create();
+        alertDialog.show();
+
+        updateFamilyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String fNameUpdate=updateFathersName.getText().toString();
+                String fContactUpdate=updateFathersContact.getText().toString();
+                String mNameUpdate=updateMotherName.getText().toString();
+                String mContactUpdate=updateMothersContact.getText().toString();
+
+                if(TextUtils.isEmpty(fNameUpdate)){
+                    updateFathersName.setError("Enter Updated Fathers Name ");
+                    updateFathersName.requestFocus();
+                    return;
+                }
+                if(TextUtils.isEmpty(fContactUpdate)){
+                    updateFathersContact.setError("Enter Updated Father Contact ");
+                    updateFathersContact.requestFocus();
+                    return;
+                }
+                if(TextUtils.isEmpty(mNameUpdate)){
+                    updateMotherName.setError("Enter Updated Mother Name ");
+                    updateMotherName.requestFocus();
+                    return;
+                }
+                if(TextUtils.isEmpty(mContactUpdate)){
+                    updateMothersContact.setError("Enter Updated Mother Contact ");
+                    updateMothersContact.requestFocus();
+                    return;
+                }
+
+                updateFamilyInformation(fNameUpdate,fContactUpdate,mNameUpdate,mContactUpdate);
+                alertDialog.dismiss();
+            }
+        });
+    }
+
+    private void updateFamilyInformation(String fNameUpdate, String fContactUpdate, String mNameUpdate, String mContactUpdate) {
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("clientInfo").child(clientKey);
+        Map<String, Object> client = new HashMap<>();
+        client.put("fathersName", fNameUpdate);
+        client.put("fathersContact", fContactUpdate);
+        client.put("mothersName",mNameUpdate);
+        client.put("mothersContact",mContactUpdate);
+
+        reference.updateChildren(client).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+            }
+        });
+    }
+
+
 
     private void showPersonalDataUpdateDialog() {
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
@@ -234,30 +387,46 @@ public class ClientInformation extends AppCompatActivity {
             }
         });
 
-        updatePButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String cNameUpdate=updateClientName.toString().trim();
-                String DateOBUpdate=DOBUpdate.toString().trim();
-
-                updatePersonalInformation(cNameUpdate,DateOBUpdate,gender);
-
-            }
-        });
-
         builder.setTitle("Update Personal Data");
         AlertDialog alertDialog=builder.create();
         alertDialog.show();
+
+        updatePButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String cNameUpdate=updateClientName.getText().toString().trim();
+                String DateOBUpdate=DOBUpdate.getText().toString().trim();
+
+                if(TextUtils.isEmpty(cNameUpdate)){
+                    updateClientName.setError("Enter Updated Name");
+                    updateClientName.requestFocus();
+                    return;
+                }
+                if(TextUtils.isEmpty(DateOBUpdate)){
+                    DOBUpdate.setError("Enter Updated Date Of Birth");
+                    DOBUpdate.requestFocus();
+                    return;
+                }
+
+                updatePersonalInformation(cNameUpdate,DateOBUpdate);
+                alertDialog.dismiss();
+
+            }
+        });
     }
 
-    private void updatePersonalInformation( String cNameUpdate,String DateOBUpdate,String gender) {
-        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("clientInfo").child("clientInfo");
-        Client client =new Client(cNameUpdate,DateOBUpdate,gender);
-        reference.setValue(client);
-        Toast.makeText(this, "Details Updated Successfully", Toast.LENGTH_LONG).show();
+    private void updatePersonalInformation( String cNameUpdate,String DateOBUpdate ) {
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("clientInfo").child(clientKey);
+        Map<String, Object> client = new HashMap<>();
+        client.put("clientName", cNameUpdate);
+        client.put("ClientDOB", DateOBUpdate);
+        client.put("Gender",gender);
 
-
+        reference.updateChildren(client).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+            }
+        });
     }
-
-
 }

@@ -1,25 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:elevation="8dp"
-    app:cardCornerRadius="10dp"
-    android:padding="10dp"
-    android:layout_margin="15dp"
-    >
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/status"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/injection"
-            android:visibility="invisible">
-
-        </de.hdodenhof.circleimageview.CircleImageView>
+   >
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="300dp"
+        app:cardCornerRadius="10dp"
+        android:padding="20dp"
+        android:layout_margin="10dp">
         <ImageView
             android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
@@ -30,11 +22,12 @@
             android:src="@drawable/oral"
             android:layout_marginLeft="10dp" />
         <LinearLayout
+            android:layout_marginStart="70dp"
             android:id="@+id/vacDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/status"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginLeft="70dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -46,7 +39,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    android:text="Vaccine Name:"/>
+                    android:text="Vaccine Name:"
+                    android:textColor="@color/darkBlue"/>
                 <TextView
                     android:id="@+id/VacName"
                     android:layout_width="wrap_content"
@@ -54,8 +48,9 @@
                     android:layout_gravity="center_vertical"
                     android:text="Vaccine Name"
                     android:paddingLeft="10dp"
+                    android:textSize="18sp"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -66,7 +61,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:text="Received On:"/>
                 <TextView
                     android:id="@+id/adminDate"
@@ -76,7 +71,7 @@
                     android:text="Received On"
                     android:paddingLeft="10dp"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -89,22 +84,16 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="Timeline"
+
                     android:paddingLeft="10dp"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textColor="@color/red"
+                    android:textSize="12sp" />
             </LinearLayout>
-
-
         </LinearLayout>
-        <ImageView
-            android:id="@+id/reminder"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:src="@drawable/ic_alert"
-            android:layout_marginStart="30dp"
-            android:layout_toRightOf="@id/vacDetails"
-            android:layout_marginLeft="30dp"
-            android:foregroundGravity="center_vertical"/>
+    </androidx.cardview.widget.CardView>
 
-    </RelativeLayout>
-</androidx.cardview.widget.CardView>
+
+
+
+
+</RelativeLayout>

@@ -36,7 +36,7 @@ public class StartActivity extends AppCompatActivity {
             if (user != null && user.isEmailVerified()) {
                 String Email = user.getEmail();
                 Query query = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("email").equalTo(Email);
-                query.addValueEventListener(new ValueEventListener() {
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()) {
