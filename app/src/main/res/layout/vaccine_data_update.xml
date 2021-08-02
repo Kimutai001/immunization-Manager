@@ -6,19 +6,12 @@
     tools:context=".RegisterVaccine"
     android:orientation="vertical">
 
-    <ImageView
-        android:layout_marginTop="30dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/vaccine"/>
-
     <EditText
-        android:id="@+id/vaccineName"
+        android:id="@+id/vaccineNameUpdate"
         android:layout_marginTop="10dp"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:hint=" Enter vaccine Name"
+        android:hint=" Enter Updated vaccine Name"
         android:layout_gravity="center_horizontal"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,7 +27,7 @@
             android:text="Mode Of Administration" />
 
         <Spinner
-            android:id="@+id/adminMode"
+            android:id="@+id/adminModeUpdate"
             android:layout_width="wrap_content"
             android:layout_height="50dp" />
 
@@ -54,26 +47,28 @@
             android:text="TimeLine" />
 
         <Spinner
-            android:id="@+id/timeLine"
+            android:id="@+id/timeLineUpdate"
             android:layout_width="wrap_content"
             android:layout_height="50dp" />
 
     </LinearLayout>
 
+
     <EditText
         android:id="@+id/date"
         android:layout_width="280dp"
-        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:hint="Date Vaccinated"
+        android:layout_height="wrap_content"
+        android:hint="Updated Vaccination Date"
         android:layout_gravity="center_horizontal"/>
     <Button
-        android:id="@+id/vaccineRegister"
+        android:id="@+id/vaccineDataUpdate"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:background="@drawable/text"
-        android:text="Register Vaccine"
+        android:text="update Vaccine Details"
         android:textColor="@color/white"
         android:layout_gravity="center_horizontal"/>
 </LinearLayout>

@@ -52,7 +52,8 @@
                     android:layout_gravity="center_vertical"
                     android:text="Name:"
                     android:textStyle="bold"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/darkBlue"
+                    android:textSize="18sp"
                     />
 
                 <TextView
@@ -60,10 +61,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:paddingLeft="10dp"
                     android:text="Patient Name"
+                    android:textSize="18dp"
                     android:textStyle="bold"
-                    android:textSize="16dp"
+                    android:textColor="@color/blue"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
                      />
             </LinearLayout>
 
@@ -82,7 +85,8 @@
                     android:layout_gravity="center_vertical"
                     android:text="Date Of Birth:"
                     android:textStyle="bold"
-                    android:textColor="@color/blue"
+                    android:textSize="14sp"
+                    android:textColor="@color/darkBlue"
                     />
 
                 <TextView
@@ -90,10 +94,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:paddingLeft="10dp"
                     android:text="Date Of Birth"
                     android:textSize="16dp"
-                    android:textStyle="bold" />
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -111,8 +116,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="Gender:"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/darkBlue"
                     />
 
                 <TextView
@@ -120,10 +126,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:paddingLeft="10dp"
                     android:text="Patient Gender"
                     android:textSize="16dp"
-                    android:textStyle="bold" />
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
+                    />
             </LinearLayout>
    <View
        android:layout_below="@id/genderLinear"
@@ -168,8 +175,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="Father's Name:"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/darkBlue"
                      />
 
                 <TextView
@@ -177,10 +185,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:paddingLeft="10dp"
                     android:text="Fathers Name"
                     android:textSize="16dp"
-                    android:textStyle="bold" />
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -197,7 +206,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="Father's Contact:"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/darkBlue"
                     android:textStyle="bold"
                     />
 
@@ -206,10 +215,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:paddingLeft="10dp"
                     android:text="Fathers contact"
                     android:textSize="16dp"
-                    android:textStyle="bold" />
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -227,7 +237,8 @@
                     android:layout_gravity="center_vertical"
                     android:text="Mother's Name:"
                     android:textStyle="bold"
-                    android:textColor="@color/blue"
+                    android:textSize="14sp"
+                    android:textColor="@color/darkBlue"
                     />
 
                 <TextView
@@ -235,10 +246,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:paddingLeft="10dp"
                     android:text="Mothers Name"
                     android:textSize="16dp"
-                    android:textStyle="bold" />
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
+                     />
             </LinearLayout>
 
             <LinearLayout
@@ -257,7 +269,8 @@
                     android:layout_gravity="center_vertical"
                     android:text="Mother's Contact:"
                     android:textStyle="bold"
-                    android:textColor="@color/blue"
+                    android:textSize="14sp"
+                    android:textColor="@color/darkBlue"
                      />
 
                 <TextView
@@ -265,10 +278,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:paddingLeft="10dp"
                     android:text="Mothers Contact"
                     android:textSize="16dp"
-                    android:textStyle="bold" />
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
+                    />
             </LinearLayout>
     <View
         android:layout_below="@id/mContactLinear"
@@ -314,8 +328,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="County:"
+                android:textSize="14sp"
                 android:textStyle="bold"
-                android:textColor="@color/blue"
+                android:textColor="@color/darkBlue"
                 />
 
             <TextView
@@ -323,10 +338,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:paddingLeft="10dp"
                 android:text="County"
                 android:textSize="16dp"
-                android:textStyle="bold" />
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp" />
         </LinearLayout>
         <LinearLayout
             android:layout_below="@id/countyLinear"
@@ -343,7 +358,8 @@
                 android:layout_gravity="center_vertical"
                 android:text="Sub County:"
                 android:textStyle="bold"
-                android:textColor="@color/blue"
+                android:textSize="14sp"
+                android:textColor="@color/darkBlue"
                  />
 
             <TextView
@@ -351,10 +367,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:paddingLeft="10dp"
                 android:text=" Sub County"
                 android:textSize="16dp"
-                android:textStyle="bold" />
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp" />
         </LinearLayout>
 
     <com.github.clans.fab.FloatingActionMenu

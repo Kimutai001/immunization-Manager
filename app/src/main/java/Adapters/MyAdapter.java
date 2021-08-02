@@ -1,12 +1,16 @@
 package Adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -43,8 +47,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.VaccineName.setText(vaccine.getVaccineName());
         holder.receivedDate.setText(vaccine.getDateVaccinated());
         holder.timeLine.setText(vaccine.getTimeLine());
-        String mode = vaccine.getMode();
 
+        String mode = vaccine.getMode();
         Drawable drawable;
         if (mode.equals("Oral")){
             drawable = DrawableCompat.wrap(AppCompatResources.getDrawable(context, R.drawable.oral));
@@ -52,6 +56,32 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             drawable = DrawableCompat.wrap(AppCompatResources.getDrawable(context, R.drawable.injection));
         }
         holder.oral.setImageDrawable(drawable);
+
+        holder.menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu=new PopupMenu(context,holder.menu);
+                popupMenu.inflate(R.menu.options_menu);
+
+                popupMenu.setOnMenuItemClickListener(item -> {
+                    switch (item.getItemId()){
+
+                        case  R.id.menuEdit:
+                            Toast.makeText(context, "Clicked Edit Option", Toast.LENGTH_SHORT).show();
+                            break;
+
+                            case  R.id.menuDelete:
+                            Toast.makeText(context, "Clicked Delete Option", Toast.LENGTH_SHORT).show();
+                            break;
+                        case R.id.menuReminder:
+                            Toast.makeText(context, "Clicked Reminder Option", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                    return false;
+                });
+                popupMenu.show();
+            }
+        });
 
 
     }
@@ -64,7 +94,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public  static  class  MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView VaccineName,receivedDate,timeLine;
-        ImageView oral;
+        ImageView oral,menu;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -73,6 +103,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
            receivedDate=itemView.findViewById(R.id.adminDate);
            timeLine=itemView.findViewById(R.id.timeLine);
            oral=itemView.findViewById(R.id.oral);
+           menu=itemView.findViewById(R.id.textOption);
         }
     }
 }

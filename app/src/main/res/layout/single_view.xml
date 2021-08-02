@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:elevation="8dp"
     app:cardCornerRadius="10dp"
@@ -13,8 +13,9 @@
         android:layout_height="wrap_content">
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="50dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_height="50dp"
             android:id="@+id/clientImage"
             android:layout_marginLeft="20dp"
             android:src="@drawable/ic_launcher_foreground" />
@@ -22,9 +23,10 @@
             android:id="@+id/nameView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:textColor="@color/darkBlue"
             android:text="Client Name:"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:layout_marginStart="10dp"
             android:layout_toRightOf="@id/clientImage"
@@ -33,21 +35,24 @@
             android:layout_toRightOf="@id/nameView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:id="@+id/clientName"
-            android:text="Patient Name"
+            android:text="Client Name"
             android:layout_gravity="center_vertical"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"/>
         <TextView
             android:id="@+id/DOBView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="DOB:"
             android:textStyle="bold"
-            android:layout_marginTop="10dp"
-            android:layout_below="@id/nameView"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@id/clientName"
             android:layout_toRightOf="@id/clientImage"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="20dp" />
         <TextView
             android:layout_below="@id/clientName"
             android:layout_width="wrap_content"
@@ -57,7 +62,9 @@
             android:text="Date Of Birth."
             android:layout_toRightOf="@id/DOBView"
             android:layout_gravity="center_vertical"
-            android:textSize="16sp"/>
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

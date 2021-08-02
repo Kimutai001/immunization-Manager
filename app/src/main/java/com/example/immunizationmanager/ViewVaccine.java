@@ -38,7 +38,6 @@ import Adapters.MyAdapter;
 import Classes.Vaccine;
 
 public class ViewVaccine extends AppCompatActivity {
-    ImageView imageView,reminderPop;
     RecyclerView recyclerView;
     TextView textViewName;
     private MyAdapter adapter;
@@ -76,6 +75,7 @@ public class ViewVaccine extends AppCompatActivity {
                     Vaccine vaccine = snap.getValue(Vaccine.class);
                     list.add(vaccine);
                     adapter.notifyItemInserted(list.size());
+
 
                 }
             }

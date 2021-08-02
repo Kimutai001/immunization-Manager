@@ -2,6 +2,7 @@ package com.example.immunizationmanager;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -131,7 +132,12 @@ public class ClientInformation extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dataRef.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(ClientInformation.this);
+                alertDialog.setTitle("Delete...");
+                alertDialog.setMessage("Do you want to delete this?");
+                alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dataRef.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                        storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -145,6 +151,15 @@ public class ClientInformation extends AppCompatActivity {
 
                     }
                 });
+                    }
+                });
+                alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+
 
             }
         });

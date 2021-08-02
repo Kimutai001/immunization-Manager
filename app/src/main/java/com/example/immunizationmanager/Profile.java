@@ -178,8 +178,7 @@ public class Profile extends AppCompatActivity {
                 showUpdateDialog();
             }
         });
-
-    }
+      }
 
     private void selectImage() {
         final CharSequence[] options = {  "Choose from Gallery","Cancel" };
@@ -310,5 +309,7 @@ public class Profile extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
+
 }
