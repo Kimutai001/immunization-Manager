@@ -1,36 +1,19 @@
 package com.example.immunizationmanager;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.allyants.notifyme.NotifyMe;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-
-import Adapters.MyAdapter;
-import Classes.Vaccine;
 
 public class Reminders extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     Calendar calendar=Calendar.getInstance();
@@ -96,7 +79,7 @@ public class Reminders extends AppCompatActivity implements DatePickerDialog.OnD
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(getApplicationContext(), ClientInformation.class);
+        Intent intent = new Intent(getApplicationContext(), ChildInformation.class);
         startActivity(intent);
         finish();
     }

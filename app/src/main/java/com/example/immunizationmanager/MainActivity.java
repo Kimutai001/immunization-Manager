@@ -21,7 +21,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-import Classes.Client;
+import Classes.Child;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private Query root=db.getReference().child("clientInfo");
 
 
-   FirebaseRecyclerOptions<Client>options;
-   FirebaseRecyclerAdapter<Client,MyViewHolder>adapter;
+   FirebaseRecyclerOptions<Child>options;
+   FirebaseRecyclerAdapter<Child,MyViewHolder>adapter;
 
 
 
@@ -93,22 +93,22 @@ public class MainActivity extends AppCompatActivity {
 
         Query query=root.orderByChild("clientName").startAt(data).endAt(data+"\uf8ff");
 
-        options=new FirebaseRecyclerOptions.Builder<Client>().setQuery(query,Client.class).build();
-        adapter=new FirebaseRecyclerAdapter<Client, MyViewHolder>(options) {
+        options=new FirebaseRecyclerOptions.Builder<Child>().setQuery(query, Child.class).build();
+        adapter=new FirebaseRecyclerAdapter<Child, MyViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i, @NonNull Client client) {
-                myViewHolder.textView.setText(client.getClientName());
-                myViewHolder.textViewDOB.setText(client.getClientDOB());
+            protected void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i, @NonNull Child child) {
+                myViewHolder.textView.setText(child.getClientName());
+                myViewHolder.textViewDOB.setText(child.getClientDOB());
 
                 Glide.with(MainActivity.this)
-                        .load(client.getImageUrl())
+                        .load(child.getImageUrl())
                         .into(myViewHolder.imageView);
                 myViewHolder.view.setOnClickListener(new View.OnClickListener() {
 
 
                     @Override
                     public void onClick(View v) {
-                        Intent intent=new Intent(MainActivity.this, ClientInformation.class);
+                        Intent intent=new Intent(MainActivity.this, ChildInformation.class);
                         intent.putExtra("clientKey",getRef(i).getKey());
                         startActivity(intent);
                     }

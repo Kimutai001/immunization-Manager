@@ -19,6 +19,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,11 +43,12 @@ import java.util.HashMap;
 
 public class ClientRegister extends AppCompatActivity {
     private static final int REQUEST_CODE_IMAGE = 101;
-    EditText dob,cName,fName,fContact,mName,mContact,locality;
-    ImageView imageViewAdd,imageViewDate;
-    Spinner spinner,countySpinner;
+    TextView dob;
+    EditText cName;
+    ImageView imageViewAdd;
+    Spinner spinner;
     Button clientRegister;
-    String gender,counties;
+    String gender;
     ProgressDialog progressDialog;
     Uri imageUri;
     boolean isImageAdded;
@@ -60,19 +62,12 @@ public class ClientRegister extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_register);
 
-
         cName=findViewById(R.id.childName);
-        fName=findViewById(R.id.fathersName);
-        fContact=findViewById(R.id.fathersContact);
-        mName=findViewById(R.id.mothersName);
-        mContact=findViewById(R.id.mothersContact);
         spinner=findViewById(R.id.sex);
-        countySpinner=findViewById(R.id.county);
         dob=findViewById(R.id.DOB);
-        imageViewDate=findViewById(R.id.viewDate);
-        locality=findViewById(R.id.editTextSub);
         clientRegister=findViewById(R.id.clientRegister);
         imageViewAdd=findViewById(R.id.imageViewAdd);
+        DatePickerDialog.OnDateSetListener listener;
 
         storageReference= FirebaseStorage.getInstance().getReference().child("clientImages");
         root=FirebaseDatabase.getInstance().getReference().child("clientInfo");
@@ -91,16 +86,23 @@ public class ClientRegister extends AppCompatActivity {
         final int month=calendar.get(Calendar.MONTH);
         final int day=calendar.get(Calendar.DAY_OF_MONTH);
 
-        imageViewDate.setOnClickListener(new View.OnClickListener() {
+        dob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatePickerDialog datePickerDialog=new DatePickerDialog(
-                        ClientRegister.this, android.R.style.Theme_Holo_Dialog_MinWidth
-                        ,setListener,year,month,day);
-                datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        ClientRegister.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        month=month+1;
+                        String date=day+"/"+month+"/"+year;
+                        dob.setText(date);
+                    }
+                },year,month,day);
                 datePickerDialog.show();
+
             }
         });
+
 
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(ClientRegister.this, R.array.gender, android.R.layout.simple_spinner_item);
@@ -118,20 +120,6 @@ public class ClientRegister extends AppCompatActivity {
         });
 
 
-        ArrayAdapter<CharSequence> adapterCounty = ArrayAdapter.createFromResource(ClientRegister.this, R.array.counties, android.R.layout.simple_spinner_item);
-        adapterCounty.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        countySpinner.setAdapter(adapterCounty);
-        countySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                counties = parent.getItemAtPosition(position).toString();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
         imageViewAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,11 +135,6 @@ public class ClientRegister extends AppCompatActivity {
             public void onClick(View v) {
                 String childName=cName.getText().toString().trim();
                 String childBirthDate=dob.getText().toString().trim();
-                String fathersName=fName.getText().toString().trim();
-                String fathersContact=fContact.getText().toString().trim();
-                String mothersName=mName.getText().toString().trim();
-                String mothersContact=mContact.getText().toString().trim();
-                String subCounty=locality.getText().toString().trim();
 
                 if(TextUtils.isEmpty(childName)){
                     cName.setError("Enter Child Name ");
@@ -163,43 +146,17 @@ public class ClientRegister extends AppCompatActivity {
                     dob.requestFocus();
                     return;
                 }
-                if(TextUtils.isEmpty(fathersName)){
-                    fName.setError("Enter Fathers Contact");
-                    fName.requestFocus();
-                    return;
-                }
-                if(TextUtils.isEmpty(fathersContact)){
-                    fContact.setError("Enter Fathers Contact ");
-                    fContact.requestFocus();
-                    return;
-                }
-                if(TextUtils.isEmpty(mothersName)){
-                    mName.setError("Enter Mothers Name ");
-                    mContact.requestFocus();
-                    return;
-                }
-                if(TextUtils.isEmpty(mothersContact)){
-                    mContact.setError("Enter Mothers Contact ");
-                    mContact.requestFocus();
-                    return;
-                }
-                if(TextUtils.isEmpty(subCounty)){
-                    locality.setError("Enter Location ");
-                    locality.requestFocus();
-                    return;
-                }
-
                 if(isImageAdded){
-                    uploadImage(childName,childBirthDate,fathersName,fathersContact,mothersName,mothersContact,subCounty);
+                    uploadImage(childName,childBirthDate);
                 }
             }
         });
 
     }
 
-    private void uploadImage(String childName, String childBirthDate,  String fathersName, String fathersContact, String mothersName, String mothersContact,String subCounty) {
+    private void uploadImage(String childName, String childBirthDate) {
         progressDialog=new ProgressDialog(ClientRegister.this);
-        progressDialog.setTitle("Registering Client");
+        progressDialog.setTitle("Registering Child");
         progressDialog.setMessage("Please Wait...");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
@@ -226,13 +183,7 @@ public class ClientRegister extends AppCompatActivity {
                             hashMap.put("imageUrl",uri.toString());
                             hashMap.put("clientName",childName);
                             hashMap.put("clientDOB",childBirthDate);
-                            hashMap.put("fathersName",fathersName);
-                            hashMap.put("fathersContact",fathersContact);
-                            hashMap.put("mothersName",mothersName);
-                            hashMap.put("mothersContact",mothersContact);
                             hashMap.put("Gender",gender);
-                            hashMap.put("county",counties);
-                            hashMap.put("subCounty",subCounty);
 
                             root.push().setValue(hashMap, new DatabaseReference.CompletionListener() {
                                 @Override
@@ -243,7 +194,7 @@ public class ClientRegister extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                            if(task.isSuccessful()){
-                                               Toast.makeText(ClientRegister.this, "Client Registered Successfully", Toast.LENGTH_SHORT).show();
+                                               Toast.makeText(ClientRegister.this, "Child Registered Successfully", Toast.LENGTH_SHORT).show();
                                                Intent intent =new Intent(ClientRegister.this,MainActivity.class);
                                                intent.putExtra("key",key);
                                                startActivity(intent);
@@ -257,8 +208,7 @@ public class ClientRegister extends AppCompatActivity {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(ClientRegister.this, "Client Registration Failed", Toast.LENGTH_SHORT).show();
-
+                            Toast.makeText(ClientRegister.this, "Child Registration Failed", Toast.LENGTH_SHORT).show();
                         }
                     });
                         }

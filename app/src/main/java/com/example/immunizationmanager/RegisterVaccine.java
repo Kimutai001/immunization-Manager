@@ -108,7 +108,7 @@ public class RegisterVaccine extends AppCompatActivity {
         String name = extras.getString("name");
         String key=extras.getString("key");
         
-        databaseReference= FirebaseDatabase.getInstance().getReference().child("clientInfo").child(key).child("vaccine");
+        databaseReference= FirebaseDatabase.getInstance().getReference().child("vaccine");
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,7 +123,7 @@ public class RegisterVaccine extends AppCompatActivity {
 
                 HashMap<String,Object> vaccineMap=new HashMap<>();
 
-                vaccineMap.put("clientName", name);
+                //vaccineMap.put("clientName", name);
                 vaccineMap.put("VaccineName",vaccineNames);
                 vaccineMap.put("Mode",mode);
                 vaccineMap.put("timeLine",timeline);

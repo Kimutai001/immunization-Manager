@@ -55,6 +55,7 @@ public class ViewVaccine extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         String name = extras.getString("name");
         String key = extras.getString("key");
+        String date=extras.getString("birthDate");
 
 
         textViewName.setText(name);
@@ -67,7 +68,7 @@ public class ViewVaccine extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
 
-        Query query = FirebaseDatabase.getInstance().getReference().child("clientInfo").child(key).child("vaccine");
+        Query query = FirebaseDatabase.getInstance().getReference().child("vaccine");
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

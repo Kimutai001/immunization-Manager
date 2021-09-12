@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="80dp"
-        android:text="ImmunizationManager"
+        android:text="Immunition"
         android:textStyle="bold"
         android:textColor="@color/darkBlue"
         android:textSize="30sp" />
@@ -54,7 +54,7 @@
         android:inputType="number"
         android:drawableStart="@drawable/ic_phone"
         android:drawablePadding="10dp"
-        android:drawableLeft="@drawable/ic_phone" />
+        android:drawableLeft="@drawable/ic_phone"/>
 
     <EditText
         android:id="@+id/editTextEmail"
@@ -94,6 +94,7 @@
         android:textColor="@color/white"
         android:text="Register"
         />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -116,6 +117,8 @@
             android:textColor="@color/blue"
             android:id="@+id/textViewLogin"
             android:text=" Login"/>
+
+
 
     </LinearLayout>
 

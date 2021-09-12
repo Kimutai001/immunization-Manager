@@ -1,6 +1,6 @@
 package Classes;
 
-public class Client {
+public class Child {
     private String clientName;
     private String imageUrl;
     private String Gender;
@@ -14,7 +14,7 @@ public class Client {
 
   
 
-    public Client(String clientName, String imageUrl, String gender, String clientDOB, String fathersName, String fathersContact, String mothersName, String mothersContact, String county,String subCounty) {
+    public Child(String clientName, String imageUrl, String gender, String clientDOB, String fathersName, String fathersContact, String mothersName, String mothersContact, String county, String subCounty) {
         this.clientName = clientName;
         this.imageUrl = imageUrl;
         Gender = gender;
@@ -29,10 +29,10 @@ public class Client {
         
     }
 
-    public Client() {
+    public Child() {
     }
 
-    public Client(String cNameUpdate, String dateOBUpdate, String gender) {
+    public Child(String cNameUpdate, String dateOBUpdate, String gender) {
     }
 
     public String getClientName() {

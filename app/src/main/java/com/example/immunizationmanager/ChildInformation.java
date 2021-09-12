@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -41,17 +40,14 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import Classes.Client;
-import Classes.User;
-
-public class ClientInformation extends AppCompatActivity {
+public class ChildInformation extends AppCompatActivity {
 
     FloatingActionMenu floatingActionMenu;
     com.github.clans.fab.FloatingActionButton vaccineViewFloat, VaccineRegisterFloat;
 
 
     ImageView imageView,editShow,delete,editPersonalData,editFamilyData,editLocationData;
-    TextView textViewName,textViewDob,textViewGender,textViewFName,textViewFContact,textViewMName,textViewMContact,textViewCounty,textViewSub;
+    TextView textViewName,textViewDob,textViewGender;
    private FirebaseDatabase db= FirebaseDatabase.getInstance();
     private DatabaseReference root=db.getReference().child("clientInfo"),dataRef;
     StorageReference storageRef;
@@ -68,17 +64,9 @@ public class ClientInformation extends AppCompatActivity {
         textViewName=findViewById(R.id.clientNameView);
         textViewDob=findViewById(R.id.clientDOBView);
         textViewGender=findViewById(R.id.genderView);
-        textViewFName=findViewById(R.id.fathersNameView);
-        textViewFContact=findViewById(R.id.fathersContactView);
-        textViewMName=findViewById(R.id.mothersNameView);
-        textViewMContact=findViewById(R.id.mothersContactView);
-        textViewCounty=findViewById(R.id.countyView);
-        textViewSub=findViewById(R.id.subCountyView);
         editShow=findViewById(R.id.editShow);
         delete=findViewById(R.id.delete);
         editPersonalData=findViewById(R.id.editPersonalData);
-        editFamilyData=findViewById(R.id.editFamilyData);
-        editLocationData=findViewById(R.id.editLocationData);
 
         clientKey=getIntent().getStringExtra("clientKey");
         dataRef=FirebaseDatabase.getInstance().getReference().child("clientInfo").child(clientKey);
@@ -113,7 +101,7 @@ public class ClientInformation extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(ClientInformation.this,ViewImages.class);
+                Intent intent =new Intent(ChildInformation.this,ViewImages.class);
                 intent.putExtra("url",imageNameUrl);
                 startActivity(intent);
             }
@@ -123,8 +111,6 @@ public class ClientInformation extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editPersonalData.setVisibility(View.VISIBLE);
-                editFamilyData.setVisibility(View.VISIBLE);
-                editLocationData.setVisibility(View.VISIBLE);
             }
         });
 
@@ -132,7 +118,7 @@ public class ClientInformation extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(ClientInformation.this);
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(ChildInformation.this);
                 alertDialog.setTitle("Delete...");
                 alertDialog.setMessage("Do you want to delete this?");
                 alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
@@ -147,7 +133,7 @@ public class ClientInformation extends AppCompatActivity {
                        }) ;
                         startActivity(new Intent(getApplicationContext(),MainActivity.class));
                         finish();
-                        Toast.makeText(ClientInformation.this, "Client Deleted Successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChildInformation.this, "Child Deleted Successfully", Toast.LENGTH_SHORT).show();
 
                     }
                 });
@@ -172,18 +158,6 @@ public class ClientInformation extends AppCompatActivity {
                 showPersonalDataUpdateDialog();
             }
         });
-        editFamilyData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showFamilyDataUpdateDialog();
-            }
-        });
-        editLocationData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShowLocationUpdateDialog();
-            }
-        });
 
 
         root.child(clientKey).addValueEventListener(new ValueEventListener() {
@@ -194,23 +168,12 @@ public class ClientInformation extends AppCompatActivity {
                     imageNameUrl=snapshot.child("imageUrl").getValue().toString();
                     String clientDOB=snapshot.child("clientDOB").getValue().toString();
                     String weight=snapshot.child("Gender").getValue().toString();
-                    String fathersName=snapshot.child("fathersName").getValue().toString();
-                    String fathersContact=snapshot.child("fathersContact").getValue().toString();
-                    String mothersName=snapshot.child("mothersName").getValue().toString();
-                    String mothersContact=snapshot.child("mothersContact").getValue().toString();
-                    String county=snapshot.child("county").getValue().toString();
-                    String subCounty=snapshot.child("subCounty").getValue().toString();
 
                     Picasso.get().load(imageNameUrl).into(imageView);
                     textViewName.setText(clientName);
                     textViewDob.setText(clientDOB);
                     textViewGender.setText(weight);
-                    textViewFName.setText(fathersName);
-                    textViewFContact.setText(fathersContact);
-                    textViewMName.setText(mothersName);
-                    textViewMContact.setText(mothersContact);
-                    textViewCounty.setText(county);
-                    textViewSub.setText(subCounty);
+
                 }
             }
 
@@ -220,136 +183,6 @@ public class ClientInformation extends AppCompatActivity {
             }
         });
     }
-
-
-
-    private void ShowLocationUpdateDialog() {
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);
-        LayoutInflater inflater=getLayoutInflater();
-        final View view=inflater.inflate(R.layout.location_data_update,null);
-
-        final Spinner  countySelect=(Spinner)view.findViewById(R.id.countyUpdate);
-        final EditText subCounty=(EditText) view.findViewById(R.id.editTextSubCountyUpdate);
-        final Button locationUpdate=(Button) view.findViewById(R.id.locationUpdate);
-
-        ArrayAdapter<CharSequence> adapterCounty = ArrayAdapter.createFromResource(ClientInformation.this, R.array.counties, android.R.layout.simple_spinner_item);
-        adapterCounty.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-          countySelect.setAdapter(adapterCounty);
-          countySelect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                counties = parent.getItemAtPosition(position).toString();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        builder.setView(view);
-        builder.setTitle("Update Location Data");
-        AlertDialog alertDialog=builder.create();
-        alertDialog.show();
-
-        locationUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String sCounty=subCounty.getText().toString();
-
-                if(TextUtils.isEmpty(sCounty)){
-                    subCounty.setError("Enter Updated Location ");
-                    subCounty.requestFocus();
-                    return;
-                }
-
-                updateLocationDetails(sCounty,counties);
-                alertDialog.dismiss();
-            }
-        });
-    }
-
-    private void updateLocationDetails(String sCounty, String counties) {
-        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("clientInfo").child(clientKey);
-        Map<String, Object> client = new HashMap<>();
-        client.put("county", counties);
-        client.put("subCounty", sCounty);
-
-        reference.updateChildren(client).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-            }
-        });
-    }
-
-
-
-    private void showFamilyDataUpdateDialog() {
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);
-        LayoutInflater inflater=getLayoutInflater();
-        final View view=inflater.inflate(R.layout.family_data_update,null);
-
-        final EditText updateFathersName= view.findViewById(R.id.fathersNameUpdate);
-        final EditText updateFathersContact=(EditText) view.findViewById(R.id.fathersContactUpdate);
-        final EditText updateMotherName=(EditText) view.findViewById(R.id.mothersNameUpdate);
-        final EditText updateMothersContact=(EditText) view.findViewById(R.id.mothersContactUpdate);
-        final Button updateFamilyButton=(Button) view.findViewById(R.id.updateFamilyDetails);
-
-        builder.setView(view);
-        builder.setTitle("Update Family Data");
-        AlertDialog alertDialog=builder.create();
-        alertDialog.show();
-
-        updateFamilyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String fNameUpdate=updateFathersName.getText().toString();
-                String fContactUpdate=updateFathersContact.getText().toString();
-                String mNameUpdate=updateMotherName.getText().toString();
-                String mContactUpdate=updateMothersContact.getText().toString();
-
-                if(TextUtils.isEmpty(fNameUpdate)){
-                    updateFathersName.setError("Enter Updated Fathers Name ");
-                    updateFathersName.requestFocus();
-                    return;
-                }
-                if(TextUtils.isEmpty(fContactUpdate)){
-                    updateFathersContact.setError("Enter Updated Father Contact ");
-                    updateFathersContact.requestFocus();
-                    return;
-                }
-                if(TextUtils.isEmpty(mNameUpdate)){
-                    updateMotherName.setError("Enter Updated Mother Name ");
-                    updateMotherName.requestFocus();
-                    return;
-                }
-                if(TextUtils.isEmpty(mContactUpdate)){
-                    updateMothersContact.setError("Enter Updated Mother Contact ");
-                    updateMothersContact.requestFocus();
-                    return;
-                }
-
-                updateFamilyInformation(fNameUpdate,fContactUpdate,mNameUpdate,mContactUpdate);
-                alertDialog.dismiss();
-            }
-        });
-    }
-
-    private void updateFamilyInformation(String fNameUpdate, String fContactUpdate, String mNameUpdate, String mContactUpdate) {
-        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("clientInfo").child(clientKey);
-        Map<String, Object> client = new HashMap<>();
-        client.put("fathersName", fNameUpdate);
-        client.put("fathersContact", fContactUpdate);
-        client.put("mothersName",mNameUpdate);
-        client.put("mothersContact",mContactUpdate);
-
-        reference.updateChildren(client).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-            }
-        });
-    }
-
-
 
     private void showPersonalDataUpdateDialog() {
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
@@ -380,14 +213,14 @@ public class ClientInformation extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DatePickerDialog datePickerDialog=new DatePickerDialog(
-                        ClientInformation.this, android.R.style.Theme_Holo_Dialog_MinWidth
+                        ChildInformation.this, android.R.style.Theme_Holo_Dialog_MinWidth
                         ,setListener,year,month,day);
                 datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 datePickerDialog.show();
             }
         });
 
-        ArrayAdapter<CharSequence> adapterCounty = ArrayAdapter.createFromResource(ClientInformation.this, R.array.gender, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapterCounty = ArrayAdapter.createFromResource(ChildInformation.this, R.array.gender, android.R.layout.simple_spinner_item);
         adapterCounty.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         genderSelect.setAdapter(adapterCounty);
 
